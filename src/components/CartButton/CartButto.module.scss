@@ -1,0 +1,23 @@
+.CartButton {
+  background: #FE5F1E;
+  color: white;
+  border-radius: 30px;
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  border: none;
+  text-decoration: none;
+
+  span {
+    margin: 0 10px;
+  }
+
+  img {
+    margin-right: 5px;
+  }
+
+}
+
+.active{
+display: none;
+}

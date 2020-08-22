@@ -1,0 +1,22 @@
+.TypeButton {
+
+  &.active {
+    background: #282828;
+    color: white;
+  }
+
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  background: #F9F9F9;
+  border-radius: 30px;
+  border: none;
+  padding: 10px 30px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+
+  &:active, &:focus {
+    outline: none;
+  }
+
+}
