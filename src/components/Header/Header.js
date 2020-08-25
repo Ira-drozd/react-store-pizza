@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import classes from './Header.module.scss'
 import logo from '../../img/pizza.svg'
 import CartButton from "../CartButton/CartButton";
 import {NavLink} from "react-router-dom";
 
 const Header = (props) => {
+
     return (
         <div className={classes.Header}>
             <div className={classes['logo-wrapper']}>

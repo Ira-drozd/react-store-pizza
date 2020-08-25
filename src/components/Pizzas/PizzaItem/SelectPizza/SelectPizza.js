@@ -1,32 +1,38 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import classes from './SelectPizza.module.scss'
 import SelectSize from "./SelectSize/SelectSize";
+import Context from "../../../../context";
+import SelectDough from "./SelectDough/SelectDough";
 
-const SelectPizza = ({
-                         sizes, name,
-                         size, price, dough,
-                         selectPizza, setSelectPizza
-                     }) => {
+const SelectPizza = (props) => {
 
-     const [activeSize, setActiveSize] = useState(sizes[size[0]-1])
+    const {pizza, setSelectPizza, sizes, doughs} = useContext(Context)
+    //pizza.dough
 
-    setSelectPizza(
-             prevState=>Object.assign(prevState,activeSize)
-         )
+    const [activeSize, setActiveSize] = useState({size: sizes[pizza.size[0] - 1]})//pizza.size {}
+    const [activeDough, setActiveDough] = useState({dough: doughs[pizza.dough[0] - 1]})//pizza.size
+
+    //console.log('activeSize',activeSize)
+
+    useEffect(()=>{
+        setSelectPizza(prevState => Object.assign(prevState, activeSize, activeDough))
+    },[activeSize, activeDough])
+    // setSelectPizza(prevState => Object.assign(prevState, activeSize, activeDough))
 
 
     return (
         <div className={classes.SelectPizza}>
             <div className={classes.row}>
-
-                <button
-                    disabled={!dough.includes(1)}
-                >testo
-                </button>
-
-                <button disabled={!dough.includes(2)}
-                        className={classes.active}>testo
-                </button>
+                {
+                    doughs.map((doughsItem, index)=>
+                    <SelectDough
+                    key={index}
+                    doughsItem={doughsItem}
+                    activeDough={activeDough}
+                    setActiveDough={setActiveDough}
+                    />
+                    )
+                }
 
             </div>
             <div className={classes.row}>
@@ -35,7 +41,7 @@ const SelectPizza = ({
                         <SelectSize
                             key={index}
                             sizeItem={sizeItem}
-                            size={size}
+                            // size={pizza.size}//pizza.size
                             activeSize={activeSize}
                             setActiveSize={setActiveSize}
                         />

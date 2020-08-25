@@ -1,11 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import PizzaItem from "./PizzaItem/PizzaItem";
 import classes from './Pizzas.module.scss'
-import Context from "../../context";
 
-const Pizzas = (props) => {
-    const {pizzas} = useContext(Context)
+const Pizzas = ({pizzas}) => {
     return (
+
         <div className={classes.Pizzas}>
             {
                 pizzas.map(pizza=>
@@ -13,8 +12,7 @@ const Pizzas = (props) => {
                 )
             }
 
-        </div>
-    )
+        </div>)
 };
 
 export default Pizzas;

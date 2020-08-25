@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-import classes from './Pizza.module.scss'
+import classes from './PizzaPage.module.scss'
 import Sort from "../../Sort/Sort";
 import Filter from "../../Filter/Filter";
 import Pizzas from "../../Pizzas/Pizzas";
-import Context from "../../../context";
 import testPizza from '../../../img/pizza/image 6.svg'
 
-const Pizza = (props) => {
+const PizzaPage = (props) => {
     const types = [
         {
             id: 1,
@@ -69,8 +68,10 @@ const Pizza = (props) => {
     console.log('type', type)
     console.log('category', category)
 
+
+
     return (
-        <div className={classes.Pizza}>
+        <div className={classes.PizzaPage}>
 
             <div className={classes['pizza-nav']}>
 
@@ -89,14 +90,10 @@ const Pizza = (props) => {
                 type && <h1>{type.title}</h1>
             }
 
-            <Context.Provider value={
-                {pizzas}
-            }>
-                <Pizzas/>
-            </Context.Provider>
+                <Pizzas pizzas={pizzas}/>
 
         </div>
     )
 };
 
-export default Pizza;
+export default PizzaPage;

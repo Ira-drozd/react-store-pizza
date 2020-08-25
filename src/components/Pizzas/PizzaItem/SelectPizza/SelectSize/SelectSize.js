@@ -1,26 +1,38 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import classes from './SelectSize.module.scss'
+import Context from "../../../../../context";
 
-const SelectSize = ({sizeItem, size, activeSize, setActiveSize}) => {
+const SelectSize = ({sizeItem, activeSize, setActiveSize}) => {
+
+    const {pizza, calcCost} = useContext(Context)
     const cls = [classes.SelectSize]
+    const disabled = !pizza.size.includes(sizeItem.idS)////pizza.size
 
-    if (activeSize.id === sizeItem.id) {
+
+    if (activeSize.size.idS === sizeItem.idS) {
         cls.push(classes.active)
     }
 
+    const onClickHandler=(sizeItem)=>{
+        setActiveSize(
+            {
+                size:{
+                    idS: sizeItem.idS,
+                    size: sizeItem.size
+                }
+            }
+        )
 
-    const disabled = !size.includes(sizeItem.id)
+        calcCost.bind(null,sizeItem.idS)()
+       /// setCost(prevState => prevState+20)
+    }
+
 
     return (
         <button
             disabled={disabled}
             className={cls.join(' ')}
-            onClick={() => setActiveSize(
-                {
-                    id: sizeItem.id,
-                    size: sizeItem.size
-                }
-            )}
+            onClick={() => onClickHandler(sizeItem)}
         >
 
             {sizeItem.size}

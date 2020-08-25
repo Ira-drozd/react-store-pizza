@@ -1,0 +1,19 @@
+.Cart{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  // background: #FE5F1E;
+  min-height: 70vh;
+
+  .wrapper {
+    width: 100%;
+    max-width: 700px;
+    //  background: #7B7B7B;
+  }
+  .pay-wrapper{
+    width: 100%;
+    max-width: 700px;
+    // background: #7B7B7B;
+  }
+}
