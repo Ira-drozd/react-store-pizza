@@ -1,19 +1,22 @@
 import React, {useContext} from 'react';
 import classes from './CartButto.module.scss'
-import cart from '../../img/cart-svg.svg'
 import {NavLink} from "react-router-dom";
-import Context from "../../context";
 
 const CartButton = (props) => {
-    const {count, allPrice}=useContext(Context)
+    const cls=[classes.CartButton]
+    if(props.type){
+        cls.push(classes[props.type])
+    }
 
     return (
         <NavLink
-            to={'/cart'}
+            to={props.path || '/'}
             exact={true}
             activeClassName={classes.active}
-            className={classes.CartButton}>
-            {allPrice} $ <span>|</span> { <img src={cart} alt='cart'/>} {count}
+            className={cls.join(' ')}>
+            {
+                props.children
+            }
         </NavLink>
     )
 };

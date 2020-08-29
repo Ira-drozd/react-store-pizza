@@ -24,7 +24,11 @@ function App() {
                     imageURL: selectPizza.imageURL,
                     size: selectPizza['size'].size,
                     dough: selectPizza['dough'].dough,
-                    count:1
+                    count: 1,
+                    allPrice: selectPizza.price,
+                    setPrice(){
+                        return this.count*this.price
+                    }
                 }
             ]
         }
@@ -41,38 +45,120 @@ function App() {
 
         if (keys.includes(keyItem)) {
 
-           if (!cartItems[keyItem].some(pizzaItem =>
-                pizzaItem.size === subItem.size && pizzaItem.dough === subItem.dough)){
-               setCartItems(prevState => Object.assign(prevState, prevState[keyItem].push(subItem)))
-           }
+            if (!cartItems[keyItem].some(pizzaItem =>
+                pizzaItem.size === subItem.size && pizzaItem.dough === subItem.dough)) {
+                setCartItems(prevState => Object.assign(prevState, prevState[keyItem].push(subItem)))
+            }
 
         } else {
             setCartItems(prevState => Object.assign(prevState, item))
         }
 
-        setCount(getCount())
-        setAllPrice(getAllPrice())
+        setCount(getCount(cartItems))
+        setAllPrice(getAllPrice(cartItems))
 
     }
 
-    const getCount = () => {
+    const getCount = (cartItems) => {
         let count = 0
         for (let key in cartItems) {
             cartItems[key].forEach(() =>
                 count += 1
             )
         }
+
         return count
     }
 
-    const getAllPrice = () => {
+    const getAllPrice = (cartItems) => {
         let sum = 0
         for (let key in cartItems) {
             sum += cartItems[key].reduce((acc, item) => {
-                return acc + item.price
+                return acc + item.allPrice
+                //return acc + item.price
             }, 0)
         }
         return sum
+    }
+
+    const clearCart = () => {
+        setCartItems({})
+        setAllPrice(0)
+        setCount(0)
+    }
+
+
+    const deletePizza = (selectPizza) => {
+
+        const newCartItems = {...cartItems}
+
+        const allPizzas = newCartItems[selectPizza.typePizza]
+        const deletePizza = allPizzas.filter(pizza =>
+            pizza.id !== selectPizza.pizzaId
+        )
+
+
+        if(deletePizza.length){
+            const newItem = {[selectPizza.typePizza]: deletePizza}
+            Object.assign(newCartItems, newItem)
+        }
+        else {
+            delete newCartItems[selectPizza.typePizza]
+        }
+
+        setCartItems(newCartItems)
+
+        setCount(getCount(newCartItems))
+        setAllPrice(getAllPrice(newCartItems))
+
+    }
+
+    const addPizza=(selectPizza)=>{
+
+
+         const newCartItems = {...cartItems}
+         const allPizzas = newCartItems[selectPizza.typePizza]
+
+        const addPizza = allPizzas.map(pizza=> {
+            if(pizza.id===selectPizza.pizzaId){
+                pizza.count = pizza.count+1
+                pizza.allPrice=pizza.setPrice()
+
+            }
+            return pizza
+            }
+        )
+
+         const newItem = {[selectPizza.typePizza]: addPizza}
+         Object.assign(newCartItems, newItem)
+
+        setCartItems(newCartItems)
+        setAllPrice(getAllPrice(newCartItems))
+    }
+
+    const subPizza=(selectPizza)=>{
+
+        console.log('addPizza', selectPizza)
+
+         const newCartItems = {...cartItems}
+         const allPizzas = newCartItems[selectPizza.typePizza]
+
+        const subPizza = allPizzas.map(pizza=> {
+            if(pizza.id===selectPizza.pizzaId){
+                if (pizza.count>1){
+                    pizza.count = pizza.count-1
+                    pizza.allPrice=pizza.setPrice()
+                }
+            }
+            return pizza
+            }
+        )
+
+         const newItem = {[selectPizza.typePizza]: subPizza}
+         Object.assign(newCartItems, newItem)
+
+        setCartItems(newCartItems)
+        setAllPrice(getAllPrice(newCartItems))
     }
 
     return (
@@ -82,7 +168,11 @@ function App() {
                 cartItems,
                 count,
                 allPrice,
-                setCartItems
+                setCartItems,
+                clearCart,
+                deletePizza,
+                addPizza,
+                subPizza
             }}>
                 <Layout>
                     <Switch>

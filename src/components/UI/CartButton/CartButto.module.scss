@@ -1,12 +1,27 @@
 .CartButton {
-  background: #FE5F1E;
-  color: white;
+
   border-radius: 30px;
   padding: 20px 30px;
   display: flex;
   align-items: center;
   border: none;
   text-decoration: none;
+
+  &.main-cart{
+    background: #FE5F1E;
+    color: white;
+  }
+
+  &.stub{
+    background: #282828;
+    color: white;
+  }
+
+  &.light{
+    background: #FFFFFF;
+    color: #CACACA;
+    border: 1px solid #CACACA;
+  }
 
   span {
     margin: 0 10px;

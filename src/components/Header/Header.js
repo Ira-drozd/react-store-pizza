@@ -1,10 +1,13 @@
 import React, {useContext} from 'react';
 import classes from './Header.module.scss'
 import logo from '../../img/pizza.svg'
-import CartButton from "../CartButton/CartButton";
+import CartButton from "../UI/CartButton/CartButton";
 import {NavLink} from "react-router-dom";
+import Context from "../../context";
+import cart from "../../img/cart-svg.svg";
 
 const Header = (props) => {
+    const {count, allPrice}=useContext(Context)
 
     return (
         <div className={classes.Header}>
@@ -20,7 +23,14 @@ const Header = (props) => {
                     <span className={classes['subtitle']}>the most delicious pizza :)</span>
                 </div>
             </div>
-            <CartButton/>
+            <CartButton
+            type={'main-cart'}
+            path={'/cart'}
+            >
+
+                {allPrice} $ <span>|</span> { <img src={cart} alt='cart'/>} {count}
+
+            </CartButton>
         </div>
     )
 };

@@ -1,19 +1,43 @@
-.Cart{
+.Cart {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  // background: #FE5F1E;
   min-height: 70vh;
+
+  .title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+      font-weight: normal;
+      color: #B6B6B6;
+      cursor: pointer;
+    }
+  }
 
   .wrapper {
     width: 100%;
     max-width: 700px;
-    //  background: #7B7B7B;
   }
-  .pay-wrapper{
+
+  .pay-wrapper {
     width: 100%;
     max-width: 700px;
-    // background: #7B7B7B;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .total {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+
+    span {
+      font-weight: normal;
+    }
   }
 }

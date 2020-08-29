@@ -13,7 +13,6 @@ const CartPage = (props) => {
 
 
 
-    console.log(cartItems)
 
     return (
         <div className={classes.CartPage}>

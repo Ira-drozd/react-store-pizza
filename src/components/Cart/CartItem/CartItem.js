@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import classes from './CartItem.module.scss'
 import EditButton from "../../UI/EditButton/EditButton";
+import Context from "../../../context";
 
-const CartItem = ({pizzas}) => {
+const CartItem = ({pizzas, typePizza}) => {
+
+    const {deletePizza, addPizza, subPizza} = useContext(Context)
 
     const pizza = () => {
         if (pizzas) {
@@ -22,30 +25,46 @@ const CartItem = ({pizzas}) => {
                     <div className={classes.edit}>
                         <div className={classes.counter}>
                             <EditButton
-                                clickHandler={() => alert('hiii')}
+                                clickHandler={() => subPizza(
+                                    {
+                                        pizzaId: pizza.id,
+                                        typePizza
+                                    }
+                                )}
                                 color={'edit'}
                             >
                                 <span>-</span>
                             </EditButton>
                             {pizza.count}
                             <EditButton
-                                clickHandler={() => alert('hiii')}
+                                clickHandler={() => addPizza(
+                                    {
+                                        pizzaId: pizza.id,
+                                        typePizza
+                                    }
+                                )}
                                 color={'edit'}
                             >
                                 <span>+</span>
                             </EditButton>
                         </div>
                         <div className={classes.price}>
-                            {pizza.price} $
+                            {pizza.allPrice} $
                             <EditButton
-                                clickHandler={() => alert('hiii')}
+                                clickHandler={() =>
+                                    deletePizza(
+                                        {
+                                            pizzaId: pizza.id,
+                                            typePizza
+                                        }
+                                    )}
                                 color={'delete'}
                             >
                                 <span>&#215;</span>
                             </EditButton>
                         </div>
                     </div>
-                    
+
                 </div>
             )
         }
