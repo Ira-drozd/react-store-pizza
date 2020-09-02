@@ -1,23 +1,29 @@
 import React from 'react';
 import classes from './Filter.module.scss'
 import TypeButton from "./TypeButton/TypeButton";
+import {connect} from "react-redux";
 
-const Filter = ({selectType, setSelectType, types}) => {
+const Filter = (props) => {
 
     return (
         <div className={classes.Filter}>
             {
-                types.map(type =>
+                props.types.map(type =>
                     <TypeButton
                         key={type.id}
-                        title={type.title}
-                        id={type.id}
-                        selectType={selectType}
-                        setSelectType={setSelectType}
+                         title={type.title}
+                         id={type.id}
                     />)
             }
         </div>
     )
 };
 
-export default Filter;
+const mapStateToProps = (state) => {
+    return {
+        types: state.pizzas.types,
+        type: state.pizzas.type
+    }
+}
+
+export default connect(mapStateToProps)(Filter);

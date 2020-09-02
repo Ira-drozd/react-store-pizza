@@ -1,24 +1,41 @@
 import React from 'react';
 import classes from './TypeButton.module.scss'
+import {connect} from "react-redux";
+import {setActiveType} from "../../../store/actions/pizzas";
 
-const TypeButton = ({title, id, selectType, setSelectType}) => {
+const TypeButton = (props) => {
     const cls = [classes.TypeButton]
 
-    if (selectType.id === id) {
+    if (props.type.id === props.id) {
         cls.push(classes.active)
     }
+
+    const {setActiveType} = props
 
     return (
         <button
             className={cls.join(' ')}
-            onClick={() => setSelectType({
-                id: id,
-                title: title
+            onClick={() => setActiveType({
+                id: props.id,
+                title: props.title
             })}
         >
-            {title}
+            {props.title}
         </button>
     )
 };
 
-export default TypeButton;
+const mapStateToProps = (state) => {
+    return {
+        type: state.pizzas.type
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setActiveType: (selectType)=>dispatch(setActiveType(selectType))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(TypeButton);

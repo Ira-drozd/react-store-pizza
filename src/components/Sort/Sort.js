@@ -5,6 +5,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
+import {setActiveCategory} from "../../store/actions/pizzas";
+import {connect} from "react-redux";
+
+
 
 const CustomInput = withStyles((theme) => ({
     input: {
@@ -16,16 +20,21 @@ const CustomInput = withStyles((theme) => ({
         padding: '10px 26px 10px 12px',
         '&:focus': {
             borderRadius: 4,
-            borderColor: '#FE5F1E',
+            borderColor: '#fe5f1e',
             boxShadow: '0 0 0 0.2rem #FE5F1E',
         }
     },
 }))(InputBase);
 
 
-const Sort = ({category, setCategory}) => {
+const Sort = (props) => {
+
+
+
+    const {setActiveCategory} = props
+
     const handleChange = (event) => {
-        setCategory(event.target.value);
+        setActiveCategory(event.target.value)
     };
 
     return (
@@ -33,16 +42,16 @@ const Sort = ({category, setCategory}) => {
             <span>Sort&nbsp;by:</span>
             <FormControl>
                 <Select
-                    value={category}
+                    value={props.category}
                     onChange={handleChange}
                     input={<CustomInput />}
                 >
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    <MenuItem value={1}>Popularity</MenuItem>
-                    <MenuItem value={2}>Prize</MenuItem>
-                    <MenuItem value={3}>A-z</MenuItem>
+                    <MenuItem value={'rating'}>Popularity</MenuItem>
+                    <MenuItem value={'price'}>Prize</MenuItem>
+                    <MenuItem value={'name'}>A-z</MenuItem>
                 </Select>
             </FormControl>
 
@@ -50,4 +59,18 @@ const Sort = ({category, setCategory}) => {
     );
 };
 
-export default Sort;
+const mapStateToProps = (state) => {
+    return {
+        category: state.pizzas.category
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setActiveCategory: (selectCategory)=>dispatch(setActiveCategory(selectCategory))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sort);
+
