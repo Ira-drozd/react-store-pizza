@@ -1,13 +1,12 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import classes from './Header.module.scss'
 import logo from '../../img/pizza.svg'
 import CartButton from "../UI/CartButton/CartButton";
 import {NavLink} from "react-router-dom";
-import Context from "../../context";
 import cart from "../../img/cart-svg.svg";
+import {connect} from "react-redux";
 
 const Header = (props) => {
-    const {count, allPrice}=useContext(Context)
 
     return (
         <div className={classes.Header}>
@@ -28,11 +27,20 @@ const Header = (props) => {
             path={'/cart'}
             >
 
-                {allPrice} $ <span>|</span> { <img src={cart} alt='cart'/>} {count}
+                {props.allPrice} $ <span>|</span>
+                { <img src={cart} alt='cart'/>}
+                {props.count}
 
             </CartButton>
         </div>
     )
 };
 
-export default Header;
+const mapStateToProps = state => {
+    return {
+        count: state.cart.count,
+        allPrice: state.cart.allPrice
+    }
+}
+
+export default connect(mapStateToProps)(Header);

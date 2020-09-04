@@ -1,11 +1,14 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import classes from './CartItem.module.scss'
 import EditButton from "../../UI/EditButton/EditButton";
-import Context from "../../../context";
+import {connect} from "react-redux";
+import {addCartItem, deleteCartItem, subCartItem} from "../../../store/actions/cart";
 
-const CartItem = ({pizzas, typePizza}) => {
 
-    const {deletePizza, addPizza, subPizza} = useContext(Context)
+const CartItem = (props) => {
+
+    const {pizzas, typePizza, deleteCartItem, addCartItem, subCartItem} = props
+
 
     const pizza = () => {
         if (pizzas) {
@@ -25,7 +28,8 @@ const CartItem = ({pizzas, typePizza}) => {
                     <div className={classes.edit}>
                         <div className={classes.counter}>
                             <EditButton
-                                clickHandler={() => subPizza(
+                                clickHandler={() =>
+                                    subCartItem(
                                     {
                                         pizzaId: pizza.id,
                                         typePizza
@@ -37,7 +41,8 @@ const CartItem = ({pizzas, typePizza}) => {
                             </EditButton>
                             {pizza.count}
                             <EditButton
-                                clickHandler={() => addPizza(
+                                clickHandler={() =>
+                                    addCartItem(
                                     {
                                         pizzaId: pizza.id,
                                         typePizza
@@ -52,7 +57,7 @@ const CartItem = ({pizzas, typePizza}) => {
                             {pizza.allPrice} $
                             <EditButton
                                 clickHandler={() =>
-                                    deletePizza(
+                                    deleteCartItem(
                                         {
                                             pizzaId: pizza.id,
                                             typePizza
@@ -79,4 +84,18 @@ const CartItem = ({pizzas, typePizza}) => {
     )
 };
 
-export default CartItem;
+const mapStateToProps = state => {
+    return {
+        cartItems: state.cart.cartItems
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        deleteCartItem: selectPizza => dispatch(deleteCartItem(selectPizza)),
+        addCartItem: selectPizza => dispatch(addCartItem(selectPizza)),
+        subCartItem: selectPizza => dispatch(subCartItem(selectPizza))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(CartItem);

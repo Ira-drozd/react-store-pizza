@@ -1,18 +1,15 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import classes from './CartPage.module.scss'
-import Context from "../../../context";
 import Cart from "../../Cart/Cart";
 import StubCart from "../../Cart/StubCart/StubCart";
+import {connect} from "react-redux";
 
 const CartPage = (props) => {
-    const {
-        cartItems
-    } = useContext(Context)
 
     return (
         <div className={classes.CartPage}>
             {
-                Object.keys(cartItems).length
+                Object.keys(props.cartItems).length
                     ? <Cart/>
                     : <StubCart/>
             }
@@ -20,4 +17,10 @@ const CartPage = (props) => {
     )
 };
 
-export default CartPage;
+const mapStateToProps = state => {
+    return {
+        cartItems: state.cart.cartItems
+    }
+}
+
+export default connect(mapStateToProps)(CartPage);

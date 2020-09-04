@@ -7,7 +7,9 @@ import {connect} from "react-redux";
 import {fetchPizzas} from "../../../store/actions/pizzas";
 
 const PizzaPage = (props) => {
+
     const {fetchPizzas}=props
+
     useEffect(()=>{
         fetchPizzas()
     },[fetchPizzas])
@@ -19,7 +21,6 @@ const PizzaPage = (props) => {
 
                 <Filter/>
                 <Sort/>
-
             </div>
             {
                 props.type && <h1>{props.type.title}</h1>

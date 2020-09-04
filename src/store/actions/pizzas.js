@@ -16,7 +16,6 @@ export const fetchPizzas = () => (async dispatch => {
             .on('value', (snapshot) => {
                 dispatch(
                     fetchPizzasSuccess(snapshot.val())
-                    //console.log('snapshot',snapshot.val())
                 )
             })
 
@@ -82,31 +81,12 @@ export const filterPizzas =  (typeId) =>  {
 
 export const  sortPizzas = ( category) =>  {
     const filterPizzas = store.getState().pizzas.filterPizzas
-    // let sortPizzas = []
-    //
-    //     sortPizzas=filterPizzas
-    //
-    // filterPizzas.sort(function (a, b) {
-    //         if (a[category] > b[category]) {
-    //             return 1;
-    //         }
-    //         if (a[category] < b[category]) {
-    //             return -1;
-    //         }
-    //         // a должно быть равным b
-    //         return 0;
-    //     });
-    // sortPizzas=filterPizzas
 
-    var list = store.getState().pizzas.filterPizzas
-
-// временный массив содержит объекты с позицией и значением сортировки
-    var mapped = list.map(function(el, i) {
+    const mappedPizzas = filterPizzas.map(function(el, i) {
         return { index: i, value: el[category] };
     });
 
-// сортируем массив, содержащий уменьшенные значения
-    mapped.sort(function(a, b) {
+    mappedPizzas.sort(function(a, b) {
         if (a.value > b.value) {
             return 1; }
         if (a.value < b.value) {
@@ -114,12 +94,9 @@ export const  sortPizzas = ( category) =>  {
         return 0;
     });
 
-// контейнер для результа
-    var sortPizzas = mapped.map(function(el) {
-        return list[el.index];
+    const sortPizzas = mappedPizzas.map(function(el) {
+        return filterPizzas[el.index];
     });
-
-   // console.log(result)
 
     return {
         type: SET_SORT,

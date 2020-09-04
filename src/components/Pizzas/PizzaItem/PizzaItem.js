@@ -1,11 +1,14 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import classes from './PizzaItem.module.scss'
 import SelectPizza from "./SelectPizza/SelectPizza";
 import Context from "../../../context";
+import {connect} from "react-redux";
+import {getCartItem} from "../../../store/actions/cart";
 
-const PizzaItem = ({pizza}) => {
 
-    const {getCartItem} = useContext(Context)
+const PizzaItem = (props) => {
+
+    const {pizza} = props
 
     const sizes = [
         {
@@ -35,8 +38,7 @@ const PizzaItem = ({pizza}) => {
 
     const [cost, setCost] = useState(pizza.price)
 
-
-    const calcCost = (selectSize) => {
+    const calcCost = useCallback((selectSize) => {
         if (selectSize === 1) {
             setCost(pizza.price)
         }
@@ -45,26 +47,26 @@ const PizzaItem = ({pizza}) => {
         }
         if (selectSize === 3) {
             setCost(pizza.price + 200)
-        }
-    }
+        }    }, [pizza.price])
+
 
     const [selectPizza, setSelectPizza] = useState(
         {
             id: pizza.id,
             imageURL: pizza.imageURL,
             name: pizza.name,
-            size: sizes[pizza.size[0] - 1],//?{id, size} {idS: 2, size: 30}
-            dough: doughs[pizza.dough[0] - 1],//{idD: 2, dough: "Thick dough"}
+            size: sizes[pizza.size[0] - 1],
+            dough: doughs[pizza.dough[0] - 1],
             price: cost
         }
     )
 
     useEffect(() => {
-        calcCost(selectPizza.size.idS)
+       calcCost(selectPizza.size.idS)
         setSelectPizza(prevState => Object.assign(prevState, {price: cost}))
-    })
+    },[calcCost, selectPizza.size.idS, cost])
 
-    //console.log(selectPizza)
+
 
     return (
         <Context.Provider value={{
@@ -73,7 +75,6 @@ const PizzaItem = ({pizza}) => {
             doughs,
             pizza,
             calcCost
-            // ,            setCost
         }}>
             <div className={classes.PizzaItem}>
                 <img src={pizza.imageURL} alt="pizza"/>
@@ -82,8 +83,7 @@ const PizzaItem = ({pizza}) => {
                 <SelectPizza/>
                 <span>{cost} $</span>
                 <button onClick={() => {
-                    // console.log(pizza.name, selectPizza)
-                    getCartItem.bind(null, selectPizza)()
+                    props.getCartItem(selectPizza)
                 }
                 }>Add
                 </button>
@@ -92,4 +92,17 @@ const PizzaItem = ({pizza}) => {
     )
 };
 
-export default PizzaItem;
+const mapStateToProps = state => {
+    return {
+        cartItems: state.cart.cartItems
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getCartItem: selectPizza => dispatch(getCartItem(selectPizza))
+    }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(PizzaItem);

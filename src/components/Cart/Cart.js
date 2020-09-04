@@ -1,18 +1,12 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import classes from './Cart.module.scss'
-import Context from "../../context";
 import CartItem from "./CartItem/CartItem";
 
 import CartButton from "../UI/CartButton/CartButton";
+import {connect} from "react-redux";
+import {clearCart} from "../../store/actions/cart";
 
 const Cart = (props) => {
-    const {
-        cartItems,
-        count,
-        allPrice,
-        clearCart
-    } = useContext(Context)
-
 
     return (
         <div className={classes.Cart}>
@@ -20,18 +14,22 @@ const Cart = (props) => {
                 <div className={classes.title}>
                     <h1>Cart</h1>
                     <span
-                        onClick={() => clearCart()}
+                        onClick={() => props.clearCart()}
                     >
                         Clear
                     </span>
                 </div>
                 {
-                    Object.keys(cartItems).map(key=>
-                        <CartItem key={key} pizzas={cartItems[key]} typePizza={key}/>)
+                    Object.keys(props.cartItems).map(key=>
+                        <CartItem
+                            key={key}
+                            pizzas={props.cartItems[key]}
+                            typePizza={key}
+                        />)
                 }
                 <div className={classes.total}>
-                    <span>Total pizzas: <b>{count}</b></span>
-                    <span>Order price: <b>{allPrice} $</b></span>
+                    <span>Total pizzas: <b>{props.count}</b></span>
+                    <span>Order price: <b>{props.allPrice} $</b></span>
                 </div>
             </div>
             <div className={classes['pay-wrapper']}>
@@ -48,4 +46,20 @@ const Cart = (props) => {
     )
 };
 
-export default Cart;
+const mapStateToProps = state => {
+    return {
+        cartItems: state.cart.cartItems,
+        count: state.cart.count,
+        allPrice: state.cart.allPrice
+
+    }
+}
+
+
+const mapDispatchToProps = dispatch =>{
+    return{
+        clearCart: ()=> dispatch(clearCart())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

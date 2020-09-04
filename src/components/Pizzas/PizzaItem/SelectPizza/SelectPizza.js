@@ -16,7 +16,7 @@ const SelectPizza = (props) => {
 
     useEffect(()=>{
         setSelectPizza(prevState => Object.assign(prevState, activeSize, activeDough))
-    },[activeSize, activeDough])
+    },[activeSize, activeDough, setSelectPizza])
     // setSelectPizza(prevState => Object.assign(prevState, activeSize, activeDough))
 
 
