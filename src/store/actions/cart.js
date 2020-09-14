@@ -1,9 +1,7 @@
-import {CLEAR_CART, EDIT_CART, GET_ALL_PRICE, GET_CART_ITEM, GET_COUNT} from "./actionTypes";
+import {CLEAR_CART, EDIT_CART, GET_ALL_PRICE, GET_CART_ITEM, GET_COUNT, SET_MESSAGE} from "./actionTypes";
 import {store} from "../../index";
 
-
-export const getCartItem = (selectPizza) => (async dispatch => {
-
+export const getCartItem = (selectPizza) => (dispatch => {
     const newCartItems = store.getState().cart.cartItems
 
     const item = {
@@ -28,26 +26,33 @@ export const getCartItem = (selectPizza) => (async dispatch => {
     const keyItem = Object.keys(item)[0]
     const subItem = item[keyItem][0]
     let payload = {}
+    let message = false
 
-
-    function f() {
-        if (keys.includes(keyItem)) {
-            if (!newCartItems[keyItem].some(pizzaItem =>
-                pizzaItem.size === subItem.size && pizzaItem.dough === subItem.dough)) {
-                newCartItems[keyItem].push(subItem)//ключ
-                payload = newCartItems
-            }
+    if (keys.includes(keyItem)) {
+        if (!newCartItems[keyItem].some(pizzaItem =>
+            pizzaItem.size === subItem.size && pizzaItem.dough === subItem.dough)) {
+            newCartItems[keyItem].push(subItem)//key
+            payload = newCartItems
         } else {
-            payload = item
+            message = true
         }
+    } else {
+        dispatch(setMessage(''))
+        payload = item
     }
-
-    await f()
 
     dispatch(setCartItem(payload))
     dispatch(getCount())
     dispatch(getAllPrice())
+    dispatch(setMessage(message))
 })
+
+export const setMessage = (message) => {
+    return {
+        type: SET_MESSAGE,
+        message
+    }
+}
 
 export const setCartItem = (payload) => {
     return {
@@ -59,10 +64,12 @@ export const setCartItem = (payload) => {
 export const getCount = () => {
     const cartItems = store.getState().cart.cartItems
     let count = 0
+
     for (let key in cartItems) {
-        for(let i=0; i<cartItems[key].length; i++){
-            count += 1
-        }
+        count += cartItems[key].reduce((acc, item) => (
+            acc + item.count
+
+        ), 0)
     }
     return {
         type: GET_COUNT,
@@ -116,11 +123,9 @@ export const deleteCartItem = (selectPizza) => (dispatch => {
         delete payload[selectPizza.typePizza]
     }
 
-
     dispatch(editCart(payload))
     dispatch(getCount())
     dispatch(getAllPrice())
-
 })
 
 export const addCartItem = (selectPizza) => (dispatch => {
@@ -132,7 +137,6 @@ export const addCartItem = (selectPizza) => (dispatch => {
             if (pizza.id === selectPizza.pizzaId) {
                 pizza.count = pizza.count + 1
                 pizza.allPrice = pizza.setPrice()
-
             }
             return pizza
         }
@@ -143,11 +147,9 @@ export const addCartItem = (selectPizza) => (dispatch => {
     const newItem = {[selectPizza.typePizza]: addPizza}
     Object.assign(payload, newCartItems, newItem)
 
-
     dispatch(editCart(payload))
     dispatch(getCount())
     dispatch(getAllPrice())
-
 })
 
 export const subCartItem = (selectPizza) => (dispatch => {
@@ -170,7 +172,6 @@ export const subCartItem = (selectPizza) => (dispatch => {
 
     const newItem = {[selectPizza.typePizza]: subPizza}
     Object.assign(payload, newCartItems, newItem)
-
 
     dispatch(editCart(payload))
     dispatch(getCount())

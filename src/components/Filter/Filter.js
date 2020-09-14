@@ -1,18 +1,17 @@
 import React from 'react';
-import classes from './Filter.module.scss'
 import TypeButton from "./TypeButton/TypeButton";
 import {connect} from "react-redux";
 
 const Filter = (props) => {
 
     return (
-        <div className={classes.Filter}>
+        <div>
             {
                 props.types.map(type =>
                     <TypeButton
                         key={type.id}
-                         title={type.title}
-                         id={type.id}
+                        title={type.title}
+                        id={type.id}
                     />)
             }
         </div>

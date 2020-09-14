@@ -1,4 +1,4 @@
-.EditButton{
+.EditButton {
   text-decoration: none;
   background: white;
   display: flex;
@@ -11,19 +11,19 @@
   font-size: 20px;
   cursor: pointer;
   margin: 0.5rem;
-  border:  2px solid;
+  border: 2px solid;
 
-  &.edit{
+  &.edit {
     border-color: #FE5F1E;
     color: #FE5F1E;
   }
 
-  &.delete{
-    border:  2px solid #D0D0D0;
+  &.delete {
+    border: 2px solid #D0D0D0;
     color: #D0D0D0;
   }
 
-  &:active,&:focus {
+  &:active, &:focus {
     outline: none;
   }
 }

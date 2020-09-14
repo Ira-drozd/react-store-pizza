@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Sort.module.scss'
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -8,11 +8,9 @@ import InputBase from '@material-ui/core/InputBase';
 import {setActiveCategory} from "../../store/actions/pizzas";
 import {connect} from "react-redux";
 
-
-
 const CustomInput = withStyles((theme) => ({
     input: {
-        width:130,
+        width: 130,
         borderRadius: 4,
         backgroundColor: theme.palette.background.paper,
         border: '1px solid #e8ddcf',
@@ -26,11 +24,7 @@ const CustomInput = withStyles((theme) => ({
     },
 }))(InputBase);
 
-
 const Sort = (props) => {
-
-
-
     const {setActiveCategory} = props
 
     const handleChange = (event) => {
@@ -44,17 +38,13 @@ const Sort = (props) => {
                 <Select
                     value={props.category}
                     onChange={handleChange}
-                    input={<CustomInput />}
+                    input={<CustomInput/>}
                 >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
                     <MenuItem value={'rating'}>Popularity</MenuItem>
                     <MenuItem value={'price'}>Prize</MenuItem>
                     <MenuItem value={'name'}>A-z</MenuItem>
                 </Select>
             </FormControl>
-
         </div>
     );
 };
@@ -67,10 +57,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setActiveCategory: (selectCategory)=>dispatch(setActiveCategory(selectCategory))
+        setActiveCategory: (selectCategory) => dispatch(setActiveCategory(selectCategory))
     }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sort);
 

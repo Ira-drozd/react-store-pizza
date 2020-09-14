@@ -2,8 +2,8 @@ import React from 'react';
 import classes from './EditButton.module.scss'
 
 const EditButton = (props) => {
-    const cls=[classes.EditButton]
-    if(props.color){
+    const cls = [classes.EditButton]
+    if (props.color) {
         cls.push(classes[props.color])
     }
 

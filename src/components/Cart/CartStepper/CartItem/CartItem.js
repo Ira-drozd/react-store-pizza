@@ -1,14 +1,12 @@
 import React from 'react';
 import classes from './CartItem.module.scss'
-import EditButton from "../../UI/EditButton/EditButton";
+import EditButton from "../../../UI/EditButton/EditButton";
 import {connect} from "react-redux";
-import {addCartItem, deleteCartItem, subCartItem} from "../../../store/actions/cart";
+import {addCartItem, deleteCartItem, subCartItem} from "../../../../store/actions/cart";
 
 
 const CartItem = (props) => {
-
     const {pizzas, typePizza, deleteCartItem, addCartItem, subCartItem} = props
-
 
     const pizza = () => {
         if (pizzas) {
@@ -21,7 +19,7 @@ const CartItem = (props) => {
                         <img src={pizza.imageURL} alt="pizza"/>
                         <div>
                             <p>{pizza.name}</p>
-                            <span>{pizza.dough}, {pizza.size} sm.</span>
+                            <span>{pizza.dough}, {pizza.size} sm</span>
                         </div>
                     </div>
 
@@ -30,11 +28,11 @@ const CartItem = (props) => {
                             <EditButton
                                 clickHandler={() =>
                                     subCartItem(
-                                    {
-                                        pizzaId: pizza.id,
-                                        typePizza
-                                    }
-                                )}
+                                        {
+                                            pizzaId: pizza.id,
+                                            typePizza
+                                        }
+                                    )}
                                 color={'edit'}
                             >
                                 <span>-</span>
@@ -43,18 +41,18 @@ const CartItem = (props) => {
                             <EditButton
                                 clickHandler={() =>
                                     addCartItem(
-                                    {
-                                        pizzaId: pizza.id,
-                                        typePizza
-                                    }
-                                )}
+                                        {
+                                            pizzaId: pizza.id,
+                                            typePizza
+                                        }
+                                    )}
                                 color={'edit'}
                             >
                                 <span>+</span>
                             </EditButton>
                         </div>
                         <div className={classes.price}>
-                            {pizza.allPrice} $
+                            ${pizza.allPrice}
                             <EditButton
                                 clickHandler={() =>
                                     deleteCartItem(
@@ -98,4 +96,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(CartItem);
+export default connect(mapStateToProps, mapDispatchToProps)(CartItem);

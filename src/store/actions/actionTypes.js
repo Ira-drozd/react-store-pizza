@@ -10,8 +10,13 @@ export const SET_SORT = 'SET_SORT'
 
 //cart
 export const GET_CART_ITEM = 'GET_CART_ITEM'
+export const SET_MESSAGE = 'SET_MESSAGE'
 export const GET_COUNT = 'SET_COUNT'
 export const GET_ALL_PRICE = 'GET_ALL_PRICE'
 
 export const CLEAR_CART = 'CLEAR_CART'
-export const EDIT_CART='EDIT_CART'
+export const EDIT_CART = 'EDIT_CART'
+
+//pagination
+export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+export const SET_PAGE_NUMBERS = 'SET_PAGE_NUMBERS'

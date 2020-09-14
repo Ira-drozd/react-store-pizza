@@ -2,8 +2,8 @@ import {
     FETCH_QUIZZES_START,
     FETCH_QUIZZES_SUCCESS,
     SET_ACTIVE_CATEGORY,
-    SET_ACTIVE_TYPE,
-    SET_FILTER, SET_SORT
+    SET_ACTIVE_TYPE, SET_CURRENT_PAGE,
+    SET_FILTER, SET_PAGE_NUMBERS, SET_SORT
 } from "./actionTypes";
 import {projectDatabase} from "../../firebase/config";
 import {store} from "../../index";
@@ -11,11 +11,13 @@ import {store} from "../../index";
 export const fetchPizzas = () => (async dispatch => {
     dispatch(fetchPizzasStart())
     try {
-
         await projectDatabase.ref('pizzas/')
             .on('value', (snapshot) => {
                 dispatch(
                     fetchPizzasSuccess(snapshot.val())
+                )
+                dispatch(
+                    setPageNumbers()
                 )
             })
 
@@ -46,7 +48,9 @@ export function fetchPizzasError(e) {
 
 export const setActiveType = (selectType) => {
     store.dispatch(filterPizzas(selectType.id))
-
+    store.dispatch(
+        setPageNumbers()
+    )
     return {
         type: SET_ACTIVE_TYPE,
         selectType
@@ -55,14 +59,14 @@ export const setActiveType = (selectType) => {
 
 
 export const setActiveCategory = (selectCategory) => {
-store.dispatch(sortPizzas(selectCategory))
+    store.dispatch(sortPizzas(selectCategory))
     return {
         type: SET_ACTIVE_CATEGORY,
         selectCategory
     }
 }
 
-export const filterPizzas =  (typeId) =>  {
+export const filterPizzas = (typeId) => {
     const pizzas = store.getState().pizzas.pizzas
     let newPizzas = []
 
@@ -79,22 +83,24 @@ export const filterPizzas =  (typeId) =>  {
     }
 }
 
-export const  sortPizzas = ( category) =>  {
+export const sortPizzas = (category) => {
     const filterPizzas = store.getState().pizzas.filterPizzas
 
-    const mappedPizzas = filterPizzas.map(function(el, i) {
-        return { index: i, value: el[category] };
+    const mappedPizzas = filterPizzas.map(function (el, i) {
+        return {index: i, value: el[category]};
     });
 
-    mappedPizzas.sort(function(a, b) {
+    mappedPizzas.sort(function (a, b) {
         if (a.value > b.value) {
-            return 1; }
+            return 1;
+        }
         if (a.value < b.value) {
-            return -1; }
+            return -1;
+        }
         return 0;
     });
 
-    const sortPizzas = mappedPizzas.map(function(el) {
+    const sortPizzas = mappedPizzas.map(function (el) {
         return filterPizzas[el.index];
     });
 
@@ -104,4 +110,23 @@ export const  sortPizzas = ( category) =>  {
     }
 }
 
+export const setPageNumbers = () => {
+    const pageNumbers = [];
+    const pizzas = store.getState().pizzas.filterPizzas.length
+    const pizzasPerPage = store.getState().pizzas.pizzasPerPage
+    for (let i = 1; i <= Math.ceil(pizzas / pizzasPerPage); i++) {
+        pageNumbers.push(i);
+    }
+    return {
+        type: SET_PAGE_NUMBERS,
+        pageNumbers
+    }
+}
+
+export const setCurrentPage = (page) => {
+    return {
+        type: SET_CURRENT_PAGE,
+        page
+    }
+}
 

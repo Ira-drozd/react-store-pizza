@@ -5,9 +5,7 @@ import CartPage from "./components/containers/CartPage/CartPage";
 import PizzaPage from "./components/containers/PizzaPage/PizzaPage";
 import {BrowserRouter} from "react-router-dom";
 
-
 function App() {
-
     return (
         <BrowserRouter>
                 <Layout>

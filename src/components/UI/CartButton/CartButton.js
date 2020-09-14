@@ -3,8 +3,8 @@ import classes from './CartButto.module.scss'
 import {NavLink} from "react-router-dom";
 
 const CartButton = (props) => {
-    const cls=[classes.CartButton]
-    if(props.type){
+    const cls = [classes.CartButton]
+    if (props.type) {
         cls.push(classes[props.type])
     }
 
@@ -13,7 +13,8 @@ const CartButton = (props) => {
             to={props.path || '/'}
             exact={true}
             activeClassName={classes.active}
-            className={cls.join(' ')}>
+            className={cls.join(' ')}
+        >
             {
                 props.children
             }

@@ -22,15 +22,14 @@ const Header = (props) => {
                     <span className={classes['subtitle']}>the most delicious pizza :)</span>
                 </div>
             </div>
+
             <CartButton
-            type={'main-cart'}
-            path={'/cart'}
+                type={'main-cart'}
+                path={'/cart'}
             >
-
-                {props.allPrice} $ <span>|</span>
-                { <img src={cart} alt='cart'/>}
+                ${props.allPrice} <span>|</span>
+                {<img src={cart} alt='cart'/>}
                 {props.count}
-
             </CartButton>
         </div>
     )

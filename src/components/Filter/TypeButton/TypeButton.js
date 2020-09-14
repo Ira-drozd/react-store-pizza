@@ -33,7 +33,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setActiveType: (selectType)=>dispatch(setActiveType(selectType))
+        setActiveType: (selectType) => dispatch(setActiveType(selectType))
     }
 }
 

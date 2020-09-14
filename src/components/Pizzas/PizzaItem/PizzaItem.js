@@ -3,8 +3,10 @@ import classes from './PizzaItem.module.scss'
 import SelectPizza from "./SelectPizza/SelectPizza";
 import Context from "../../../context";
 import {connect} from "react-redux";
-import {getCartItem} from "../../../store/actions/cart";
-
+import {getCartItem, setMessage} from "../../../store/actions/cart";
+import AddButton from "../../UI/AddButton/AddButton";
+import {motion} from "framer-motion";
+import Message from "../../UI/Message/Message";
 
 const PizzaItem = (props) => {
 
@@ -38,6 +40,7 @@ const PizzaItem = (props) => {
 
     const [cost, setCost] = useState(pizza.price)
 
+
     const calcCost = useCallback((selectSize) => {
         if (selectSize === 1) {
             setCost(pizza.price)
@@ -47,7 +50,8 @@ const PizzaItem = (props) => {
         }
         if (selectSize === 3) {
             setCost(pizza.price + 200)
-        }    }, [pizza.price])
+        }
+    }, [pizza.price])
 
 
     const [selectPizza, setSelectPizza] = useState(
@@ -62,10 +66,16 @@ const PizzaItem = (props) => {
     )
 
     useEffect(() => {
-       calcCost(selectPizza.size.idS)
+        calcCost(selectPizza.size.idS)
         setSelectPizza(prevState => Object.assign(prevState, {price: cost}))
-    },[calcCost, selectPizza.size.idS, cost])
+    }, [calcCost, selectPizza.size.idS, cost])
 
+    const [open, setOpen] = useState(false);
+
+    const addClickHandler = () => {
+        props.getCartItem(selectPizza)
+        setOpen(true)
+    }
 
 
     return (
@@ -77,16 +87,36 @@ const PizzaItem = (props) => {
             calcCost
         }}>
             <div className={classes.PizzaItem}>
-                <img src={pizza.imageURL} alt="pizza"/>
+                <motion.img
+                    layout
+                    whileHover={{scale: 1.1}}
+                    src={pizza.imageURL}
+                    alt="pizza"
+                    onClick={() => props.setSelectDescription(
+                        {
+                            img: pizza.imageURL,
+                            name: pizza.name,
+                            description: pizza.description
+                        }
+                    )}
+                />
                 <h3>{pizza.name}</h3>
 
                 <SelectPizza/>
-                <span>{cost} $</span>
-                <button onClick={() => {
-                    props.getCartItem(selectPizza)
+                <div className={classes['add-container']}>
+                    <span>${cost}</span>
+
+                    <AddButton
+                        getCartItem={
+                            addClickHandler
+                        }
+                    ><span>+</span> Add
+                    </AddButton>
+                </div>
+                {
+                    props.message && <Message open={open} setOpen={setOpen}/>
                 }
-                }>Add
-                </button>
+
             </div>
         </Context.Provider>
     )
@@ -94,15 +124,17 @@ const PizzaItem = (props) => {
 
 const mapStateToProps = state => {
     return {
-        cartItems: state.cart.cartItems
+        cartItems: state.cart.cartItems,
+        message: state.cart.message
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getCartItem: selectPizza => dispatch(getCartItem(selectPizza))
+        getCartItem: selectPizza => dispatch(getCartItem(selectPizza)),
+        setMessage: err => dispatch(setMessage(err))
     }
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(PizzaItem);
+export default connect(mapStateToProps, mapDispatchToProps)(PizzaItem);
