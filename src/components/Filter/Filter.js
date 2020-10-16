@@ -1,19 +1,29 @@
 import React from 'react';
-import TypeButton from "./TypeButton/TypeButton";
 import {connect} from "react-redux";
+import Button from '../UI/Button/Button'
+import {setActiveType} from "../../store/actions/pizzas";
+import classes from './Filter.module.scss'
 
-const Filter = (props) => {
+const Filter = ({selectedType, types, setActiveType}) => {
 
     return (
-        <div>
+        <div className={classes.Filter}>
             {
-                props.types.map(type =>
-                    <TypeButton
-                        key={type.id}
-                        title={type.title}
-                        id={type.id}
-                    />)
+                types.map(type =>
+                        <Button
+                            key={type.id}
+                            type='TypeButton'
+                            active={selectedType.id === type.id}
+                            onClick={() => setActiveType({
+                                id: type.id,
+                                title: type.title
+                            })}
+                        >
+                            {type.title}
+                        </Button>
+                    )
             }
+
         </div>
     )
 };
@@ -21,8 +31,14 @@ const Filter = (props) => {
 const mapStateToProps = (state) => {
     return {
         types: state.pizzas.types,
-        type: state.pizzas.type
+        selectedType: state.pizzas.type
     }
 }
 
-export default connect(mapStateToProps)(Filter);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setActiveType: (selectType) => dispatch(setActiveType(selectType))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

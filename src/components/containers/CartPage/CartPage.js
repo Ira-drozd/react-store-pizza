@@ -4,12 +4,12 @@ import Cart from "../../Cart/Cart";
 import StubCart from "../../Cart/StubCart/StubCart";
 import {connect} from "react-redux";
 
-const CartPage = (props) => {
+const CartPage = ({cartItems}) => {
 
     return (
         <div className={classes.CartPage}>
             {
-                Object.keys(props.cartItems).length
+                Object.keys(cartItems).length
                     ? <Cart/>
                     : <StubCart/>
             }

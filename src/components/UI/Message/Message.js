@@ -1,8 +1,7 @@
 import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 
-const Message = (props) => {
-    const {open, setOpen} = props
+const Message = ({open, setOpen}) => {
     const message = <div style={{textAlign: "center"}}>
         The same pizza is already in the cart. <br/>
         If you want to change <b>count</b> of pizza, go to the <b>cart</b>.

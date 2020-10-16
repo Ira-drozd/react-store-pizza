@@ -13,6 +13,6 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const projectDatabase = firebase.database()
+//const projectDatabase = firebase.database()
 
-export {projectDatabase}
+//export {projectDatabase}

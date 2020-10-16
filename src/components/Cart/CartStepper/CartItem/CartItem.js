@@ -1,12 +1,11 @@
 import React from 'react';
 import classes from './CartItem.module.scss'
-import EditButton from "../../../UI/EditButton/EditButton";
 import {connect} from "react-redux";
 import {addCartItem, deleteCartItem, subCartItem} from "../../../../store/actions/cart";
+import Button from "../../../UI/Button/Button";
 
 
-const CartItem = (props) => {
-    const {pizzas, typePizza, deleteCartItem, addCartItem, subCartItem} = props
+const CartItem = ({pizzas, typePizza, deleteCartItem, addCartItem, subCartItem}) => {
 
     const pizza = () => {
         if (pizzas) {
@@ -25,46 +24,49 @@ const CartItem = (props) => {
 
                     <div className={classes.edit}>
                         <div className={classes.counter}>
-                            <EditButton
-                                clickHandler={() =>
-                                    subCartItem(
-                                        {
-                                            pizzaId: pizza.id,
-                                            typePizza
-                                        }
-                                    )}
-                                color={'edit'}
+                            <Button
+                            type='EditButton'
+                            subtype='edit'
+                            onClick={() =>
+                                subCartItem(
+                                    {
+                                        pizzaId: pizza.id,
+                                        typePizza
+                                    }
+                                )}
                             >
                                 <span>-</span>
-                            </EditButton>
+                            </Button>
                             {pizza.count}
-                            <EditButton
-                                clickHandler={() =>
+                            <Button
+                                type='EditButton'
+                                subtype='edit'
+                                onClick={() =>
                                     addCartItem(
                                         {
                                             pizzaId: pizza.id,
                                             typePizza
                                         }
                                     )}
-                                color={'edit'}
                             >
                                 <span>+</span>
-                            </EditButton>
+                            </Button>
                         </div>
                         <div className={classes.price}>
                             ${pizza.allPrice}
-                            <EditButton
-                                clickHandler={() =>
+                            <Button
+                                type='EditButton'
+                                subtype='delete'
+                                onClick={() =>
                                     deleteCartItem(
                                         {
                                             pizzaId: pizza.id,
                                             typePizza
                                         }
                                     )}
-                                color={'delete'}
                             >
                                 <span>&#215;</span>
-                            </EditButton>
+                            </Button>
                         </div>
                     </div>
 

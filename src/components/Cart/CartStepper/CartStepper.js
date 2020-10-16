@@ -35,7 +35,7 @@ function getSteps() {
     return ['Selected pizzas', 'Your contacts'];
 }
 
-const CartStepper = (props) => {
+const CartStepper = ({cartItem, cartItems, form, count, allPrice, onChangeHandler, isFormValid}) => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
@@ -43,11 +43,11 @@ const CartStepper = (props) => {
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return props.cartItem
+                return cartItem
             case 1:
                 return <FormContacts
-                    form={props.form}
-                    onChangeHandler={props.onChangeHandler}
+                    form={form}
+                    onChangeHandler={onChangeHandler}
                 />;
             default:
                 return 'Unknown step';
@@ -137,15 +137,15 @@ const CartStepper = (props) => {
             {activeStep === steps.length && (
                 <Paper square elevation={0} className={classes.resetContainer}>
                     {
-                        props.isFormValid
+                        isFormValid
                             ? <div>
                                 <Typography>You can pay!</Typography>
                                 <Button
                                     onClick={() => {
-                                        console.log('Pizzas', props.cartItems)
-                                        console.log('Count', props.count)
-                                        console.log('All price', props.allPrice)
-                                        console.log('Form', props.form)
+                                        console.log('Pizzas', cartItems)
+                                        console.log('Count', count)
+                                        console.log('All price', allPrice)
+                                        console.log('Form', form)
                                     }
                                     }
                                 >

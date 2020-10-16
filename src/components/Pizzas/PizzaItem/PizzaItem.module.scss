@@ -17,6 +17,18 @@
     }
   }
 
+  .img-container{
+    background: repeating-linear-gradient(
+                    135deg,
+                    #ffffff 0px,
+                    #ffffff 10px,
+                    #fe5f1e 20px,
+                    #fe5f1e 20px
+    );
+    width: 259px;
+    height: 259px;
+  }
+
   img {
     cursor: pointer;
     width: 260px;

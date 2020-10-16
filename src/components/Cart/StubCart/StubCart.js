@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './StubCart.module.scss'
 import stub from '../../../img/shopping-cart-colour 1.svg'
-import CartButton from "../../UI/CartButton/CartButton";
+import CustomNavLink from "../../UI/CustomNavLink/CustomNavLink";
 import {motion} from "framer-motion";
 
 const StubCart = (props) => {
@@ -15,11 +15,11 @@ const StubCart = (props) => {
                 src={stub}
                 alt="stub"
             />
-            <CartButton
+            <CustomNavLink
                 type={'stub'}
             >
                 Go back
-            </CartButton>
+            </CustomNavLink>
         </div>
     )
 };

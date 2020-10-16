@@ -50,7 +50,7 @@ export const getCartItem = (selectPizza) => (dispatch => {
 export const setMessage = (message) => {
     return {
         type: SET_MESSAGE,
-        message
+        payload: message
     }
 }
 
@@ -73,7 +73,7 @@ export const getCount = () => {
     }
     return {
         type: GET_COUNT,
-        count
+        payload: count
     }
 }
 
@@ -88,7 +88,7 @@ export const getAllPrice = () => {
     }
     return {
         type: GET_ALL_PRICE,
-        sum
+        payload: sum
     }
 }
 

@@ -4,42 +4,13 @@ import SelectPizza from "./SelectPizza/SelectPizza";
 import Context from "../../../context";
 import {connect} from "react-redux";
 import {getCartItem, setMessage} from "../../../store/actions/cart";
-import AddButton from "../../UI/AddButton/AddButton";
 import {motion} from "framer-motion";
 import Message from "../../UI/Message/Message";
+import {sizes, doughs} from './constants'
+import Button from "../../UI/Button/Button";
 
-const PizzaItem = (props) => {
-
-    const {pizza} = props
-
-    const sizes = [
-        {
-            idS: 1,
-            size: 26
-        },
-        {
-            idS: 2,
-            size: 30
-        },
-        {
-            idS: 3,
-            size: 40
-        }
-    ]
-
-    const doughs = [
-        {
-            idD: 1,
-            dough: 'Thin crust'
-        },
-        {
-            idD: 2,
-            dough: 'Thick dough'
-        }
-    ]
-
+const PizzaItem = ({pizza, setSelectDescription,getCartItem, message, setMessage}) => {
     const [cost, setCost] = useState(pizza.price)
-
 
     const calcCost = useCallback((selectSize) => {
         if (selectSize === 1) {
@@ -73,7 +44,7 @@ const PizzaItem = (props) => {
     const [open, setOpen] = useState(false);
 
     const addClickHandler = () => {
-        props.getCartItem(selectPizza)
+        getCartItem(selectPizza)
         setOpen(true)
     }
 
@@ -87,34 +58,36 @@ const PizzaItem = (props) => {
             calcCost
         }}>
             <div className={classes.PizzaItem}>
-                <motion.img
-                    layout
-                    whileHover={{scale: 1.1}}
-                    src={pizza.imageURL}
-                    alt="pizza"
-                    onClick={() => props.setSelectDescription(
-                        {
-                            img: pizza.imageURL,
-                            name: pizza.name,
-                            description: pizza.description
-                        }
-                    )}
-                />
+                <div className={classes["img-container"]}>
+                    <motion.img
+                        layout
+                        whileHover={{scale: 1.1}}
+                        src={pizza.imageURL}
+                        alt="pizza"
+                        onClick={() => setSelectDescription(
+                            {
+                                img: pizza.imageURL,
+                                name: pizza.name,
+                                description: pizza.description
+                            }
+                        )}
+                    />
+                </div>
                 <h3>{pizza.name}</h3>
 
                 <SelectPizza/>
+
                 <div className={classes['add-container']}>
                     <span>${cost}</span>
-
-                    <AddButton
-                        getCartItem={
-                            addClickHandler
-                        }
-                    ><span>+</span> Add
-                    </AddButton>
+                    <Button
+                        onClick={addClickHandler}
+                        type='AddButton'
+                    >
+                        <span>+</span> Add
+                    </Button>
                 </div>
                 {
-                    props.message && <Message open={open} setOpen={setOpen}/>
+                    message && <Message open={open} setOpen={setOpen}/>
                 }
 
             </div>

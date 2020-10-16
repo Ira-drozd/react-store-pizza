@@ -23,12 +23,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const FormContacts = (props) => {
-
-    const {form, onChangeHandler} = props
-
+const FormContacts = ({form, onChangeHandler}) => {
     const classes = useStyles();
-
 
     return (
         <form className={classes.root} noValidate autoComplete="off">

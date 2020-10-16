@@ -6,33 +6,53 @@ import Pizzas from "../../Pizzas/Pizzas";
 import {connect} from "react-redux";
 import {fetchPizzas, setCurrentPage} from "../../../store/actions/pizzas";
 import Loader from "../../UI/Loader/Loader";
+import classNames from 'classnames'
 
-const PizzaPage = (props) => {
-    const {fetchPizzas, setCurrentPage} = props
 
-    const indexOfLastTodo = props.currentPage * props.pizzasPerPage;
-    const indexOfFirstTodo = indexOfLastTodo - props.pizzasPerPage;
-    const currentPizzas = props.filterPizzas.slice(indexOfFirstTodo, indexOfLastTodo);
+const PizzaPage = ({
+                       fetchPizzas,
+                       setCurrentPage,
+                       error,
+                       filterPizzas,
+                       loading,
+                       type,
+                       pageNumbers,
+                       currentPage,
+                       pizzasPerPage
+                   }) => {
 
-    const renderPizzas = currentPizzas.map(pizza => {
-        return pizza
-    });
+    let indexOfLastTodo = 0
+    let indexOfFirstTodo = 0
+    let currentPizzas = 0
+
+    let renderPizzas = []
+
+    if (!error) {
+
+        indexOfLastTodo = currentPage * pizzasPerPage;
+        indexOfFirstTodo = indexOfLastTodo - pizzasPerPage;
+        currentPizzas = filterPizzas.slice(indexOfFirstTodo, indexOfLastTodo);
+
+        renderPizzas = currentPizzas.map(pizza => {
+            return pizza
+        });
+    }
 
     useEffect(() => {
         fetchPizzas()
     }, [fetchPizzas])
 
-    const renderPageNumbers = props.pageNumbers.map(number => {
-        const cls = []
-        if (number === props.currentPage) {
-            cls.push(classes.active)
-        }
+
+    const renderPageNumbers = pageNumbers.map(number => {
+        const cls = classNames({
+            [classes.active]: number === currentPage
+        });
 
         return (
             <li
                 key={number}
                 onClick={() => setCurrentPage(number)}
-                className={cls.join(' ')}
+                className={cls}
             >
                 {number}
             </li>
@@ -41,24 +61,33 @@ const PizzaPage = (props) => {
 
     return (
         <div className={classes.PizzaPage}>
-            <div className={classes['pizza-nav']}>
-                <Filter/>
-                <Sort/>
-            </div>
             {
-                props.type && <h1>{props.type.title}</h1>
-            }
-            {
-                props.loading
+
+                loading
                     ? <Loader/>
-                    : <Pizzas pizzas={renderPizzas}/>
-            }
-            {
-                props.pageNumbers.length > 0
-                &&
-                <ul className={classes.pages}>
-                    {renderPageNumbers}
-                </ul>
+                    : error
+                    ? <div> {error.toString()}</div>
+                    :
+
+                    <>
+                        <div className={classes['pizza-nav']}>
+                            <Filter/>
+                            <Sort/>
+                        </div>
+
+                        {
+                            type && <h1>{type.title}</h1>
+                        }
+                        <Pizzas pizzas={renderPizzas}></Pizzas>
+                        {
+                            pageNumbers.length > 0
+                            &&
+                            <ul className={classes.pages}>
+                                {renderPageNumbers}
+                            </ul>
+                        }
+                    </>
+
             }
         </div>
     )
@@ -67,7 +96,7 @@ const PizzaPage = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        pizzas: state.pizzas.pizzas,
+        error: state.pizzas.error,
         filterPizzas: state.pizzas.filterPizzas,
         loading: state.pizzas.loading,
         type: state.pizzas.type,

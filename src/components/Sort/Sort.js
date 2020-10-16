@@ -24,9 +24,7 @@ const CustomInput = withStyles((theme) => ({
     },
 }))(InputBase);
 
-const Sort = (props) => {
-    const {setActiveCategory} = props
-
+const Sort = ({category, setActiveCategory}) => {
     const handleChange = (event) => {
         setActiveCategory(event.target.value)
     };
@@ -36,7 +34,7 @@ const Sort = (props) => {
             <span>Sort&nbsp;by:</span>
             <FormControl>
                 <Select
-                    value={props.category}
+                    value={category}
                     onChange={handleChange}
                     input={<CustomInput/>}
                 >
@@ -62,4 +60,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sort);
-

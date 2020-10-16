@@ -1,75 +1,17 @@
 import React, {useState} from 'react';
-import myClasses from './Cart.module.scss'
+import classes from './Cart.module.scss'
 import CartItem from "./CartStepper/CartItem/CartItem";
-
-import CartButton from "../UI/CartButton/CartButton";
+import CustomNavLink from "../UI/CustomNavLink/CustomNavLink";
 import {connect} from "react-redux";
 import {clearCart} from "../../store/actions/cart";
 import CartStepper from "./CartStepper/CartStepper";
+import {formConstants} from './constants'
 import is from 'is_js'
 
 
-const Cart = (props) => {
+const Cart = ({cartItems, count, allPrice, clearCart}) => {
     const [isFormValid, setIsFormValid] = useState(false)
-    const [form, setForm] = useState({
-        tel: {
-            value: '',
-            label: 'Tel',
-            type: 'tel',
-            valid: false,
-            touched: false,
-            validation: {
-                required: true,
-                minLength: 9
-            }
-        },
-        email: {
-            value: '',
-            label: 'Email',
-            type: 'email',
-            valid: false,
-            touched: false,
-            validation: {
-                required: true,
-                email: true
-            }
-        },
-        name: {
-            value: '',
-            label: 'Name',
-            type: 'name',
-            valid: false,
-            touched: false,
-            validation: {
-                required: true,
-                minLength: 1
-            }
-        },
-
-        city: {
-            value: '',
-            label: 'City',
-            type: 'city',
-            valid: false,
-            touched: false,
-            validation: {
-                required: true,
-                minLength: 1
-            }
-        },
-        address: {
-            value: '',
-            label: 'Address',
-            type: 'address',
-            valid: false,
-            touched: false,
-            validation: {
-                required: true,
-                minLength: 1
-            }
-        }
-    })
-
+    const [form, setForm] = useState(formConstants)
 
     const validateControl = (value, validation) => {
         if (!validation) {
@@ -106,20 +48,20 @@ const Cart = (props) => {
         setIsFormValid(isFormValid)
     }
 
-    const cartItem = Object.keys(props.cartItems).map(key =>
+    const cartItem = Object.keys(cartItems).map(key =>
         <CartItem
             key={key}
-            pizzas={props.cartItems[key]}
+            pizzas={cartItems[key]}
             typePizza={key}
         />)
 
     return (
-        <div className={myClasses.Cart}>
-            <div className={myClasses.wrapper}>
-                <div className={myClasses.title}>
+        <div className={classes.Cart}>
+            <div className={classes.wrapper}>
+                <div className={classes.title}>
                     <h1>Cart</h1>
                     <span
-                        onClick={() => props.clearCart()}
+                        onClick={() => clearCart()}
                     >
                         Clear
                     </span>
@@ -132,16 +74,16 @@ const Cart = (props) => {
                     isFormValid={isFormValid}
                 />
 
-                <div className={myClasses.total}>
-                    <span>Total pizzas: <b>{props.count}</b></span>
-                    <span>Order price: <b>${props.allPrice}</b></span>
+                <div className={classes.total}>
+                    <span>Total pizzas: <b>{count}</b></span>
+                    <span>Order price: <b>${allPrice}</b></span>
                 </div>
             </div>
-            <div className={myClasses['pay-wrapper']}>
-                <CartButton
+            <div className={classes['pay-wrapper']}>
+                <CustomNavLink
                     type={'light'}>
                     Go back
-                </CartButton>
+                </CustomNavLink>
             </div>
         </div>
     )

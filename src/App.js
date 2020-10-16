@@ -1,6 +1,6 @@
 import React from 'react';
 import {Switch, Route} from "react-router-dom";
-import Layout from "./hoc/Layout/Layout";
+import Layout from "./container/Layout/Layout";
 import CartPage from "./components/containers/CartPage/CartPage";
 import PizzaPage from "./components/containers/PizzaPage/PizzaPage";
 import {BrowserRouter} from "react-router-dom";

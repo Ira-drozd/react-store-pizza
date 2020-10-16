@@ -21,15 +21,15 @@ const cartReducer = (state = initialState, action) => {
             }
         case SET_MESSAGE:
             return {
-                ...state, message: action.message
+                ...state, message: action.payload
             }
         case GET_COUNT:
             return {
-                ...state, count: action.count
+                ...state, count: action.payload
             }
         case GET_ALL_PRICE:
             return {
-                ...state, allPrice: action.sum
+                ...state, allPrice: action.payload
             }
         case CLEAR_CART:
             return {
